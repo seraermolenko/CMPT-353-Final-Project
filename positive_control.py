@@ -51,8 +51,8 @@ try:
     plt.legend()
 
     # Show plot
-    plt.show()
-
+    #plt.show()
+    plt.savefig('outputs/Positive_Control_PDF.png')
 
     # alpha and xmin results
     #print('\n') 
