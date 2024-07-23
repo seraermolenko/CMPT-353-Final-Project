@@ -5,14 +5,16 @@ README.md
 - Rachel's Accomplishment Statement
 
 **Required Libraries**
-- numpy, pandas, matplotlib, powerlaw
+- numpy, pandas, matplotlib, powerlaw, nibabel 
 
 **Commands/Arguments**
 
 **Order of Execution**
-- Powerlaw Package Validation (.... , python3 exponential_validation.py)
+1. Powerlaw Package Validation (python positive_control.py, python negative_control.py)
 
 **Files Produced/Expected**
+1. two graphs Negative_Control_PDF.png and Positive_Control_PDF.png in 'outputs' folder
+
 
 **Code Documentation (4 page report)**
 
