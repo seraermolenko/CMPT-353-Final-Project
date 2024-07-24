@@ -96,58 +96,16 @@ def main(file, output_name):
     plt.savefig("outputs/loglog/" + output_name + "_left_right")
     print("Loglog plot " + output_name + "_left_right.png saved in outputs/loglog")
 
-    
-    # Don't save to csv!! too large
-    left_df.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[0][0] + ".csv")
+    mean_left_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[0][0] + ".csv")
     print("Left hemisphere dataframe " + output_name + "_" + dictionary[0][0] + ".csv saved in left_right_dataframes/")
 
-    right_df.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[1][0] + ".csv")
+    mean_right_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[1][0] + ".csv")
     print("Right hemisphere dataframe " + output_name + "_" + dictionary[1][0] + ".csv saved in left_right_dataframes/")
-
-
-# corrThickness data: python3 loading_1200_data.py 1
-
-# curvature data: python3 loading_1200_data.py 2
-# 
-# smoothed myelin map data: python3 loading_1200_data.py 3
-
-# sulc data: python3 loading_1200_data.py 4
-
-# thickness data: python3 loading_1200_data.py 5
+    print("\n\n")
 
 if __name__=='__main__':
-    files = ['corrThickness', 'curvature', 'myelinMap', 'smoothedMyelinMap', 'sulc', 'thickness']
-    if(len(sys.argv) != 2):
-        print("Couldn't recognize argument input; program terminating. Please input (1/2/3/4/5/6) alongside the program.")
-        print("1: corrThickness")
-        print("2: curvature")
-        print("3: myelinMap")
-        print("4: smoothedMyelinMap")
-        print("5: sulc")
-        print("6: thickness")
-
-    else:
-        if (sys.argv[1] == '1'):
-            # corr_thickness
-            print("Running corrThickness file...")
-            main('datasets/S1200.corrThickness_MSMAll.32k_fs_LR.dscalar.nii', files[0])
-        elif (sys.argv[1] == '2'):
-            # curvature
-            print("Running curvature file...")
-            main('datasets/S1200.curvature_MSMAll.32k_fs_LR.dscalar.nii', files[1])
-        elif (sys.argv[1] == '3'):
-            print("Running myelin map file...")
-            main('datasets/S1200.MyelinMap_BC_MSMAll.32k_fs_LR.dscalar.nii', files[2])
-        
-        elif (sys.argv[1] == '4'):
-            print("Running smoothed myelin map file...")
-            main('datasets/S1200.SmoothedMyelinMap_BC_MSMAll.32k_fs_LR.dscalar.nii', files[3])
-
-        elif (sys.argv[1] == '5'):
-            print("Running sulc file...")
-            main('datasets/S1200.sulc_MSMAll.32k_fs_LR.dscalar.nii', files[4])
-
-        elif (sys.argv[1] == '6'):
-            print("Running thickness file...")
-            main('datasets/S1200.thickness_MSMAll.32k_fs_LR.dscalar.nii', files[5])
-        
+    filetype = ['corrThickness', 'curvature', 'myelinMap', 'smoothedMyelinMap', 'sulc', 'thickness']
+    filenames = ['S1200.corrThickness_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.curvature_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.MyelinMap_BC_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.SmoothedMyelinMap_BC_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.sulc_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.thickness_MSMAll.32k_fs_LR.dscalar.nii']
+    for i in range(len(filenames)):
+        print("Running " + filetype[i] + " file...")
+        main('datasets/' + filenames[i], filetype[i])
