@@ -18,6 +18,23 @@ def main(file, output_name):
     df = pd.DataFrame(file_data) #, columns=['Cerebral Cortex Thickness'])
     hdr = file_img.header # header
 
+
+    # # Get the index map
+    # index_maps = hdr.get_index_maps()
+
+    # # Display information about the index map
+    # print("Index Maps:", index_maps)
+
+    # # If the index map contains multiple maps, you can iterate through them
+    # for im in index_maps:
+    #     print(im)
+    #     print("Type:", type(im))
+    #     print("Data:", im.data)
+    #     print("Brain Models:", im.brain_models)
+    #     print("Index:", im.index)
+
+    #print('Data space: ', hdr.get_data_shape())
+
     # Access the matrix
     matrix = hdr.matrix
 
