@@ -18,6 +18,23 @@ def main(file, output_name):
     df = pd.DataFrame(file_data) #, columns=['Cerebral Cortex Thickness'])
     hdr = file_img.header # header
 
+
+    # # Get the index map
+    # index_maps = hdr.get_index_maps()
+
+    # # Display information about the index map
+    # print("Index Maps:", index_maps)
+
+    # # If the index map contains multiple maps, you can iterate through them
+    # for im in index_maps:
+    #     print(im)
+    #     print("Type:", type(im))
+    #     print("Data:", im.data)
+    #     print("Brain Models:", im.brain_models)
+    #     print("Index:", im.index)
+
+    #print('Data space: ', hdr.get_data_shape())
+
     # Access the matrix
     matrix = hdr.matrix
 
@@ -103,9 +120,34 @@ def main(file, output_name):
     print("Right hemisphere dataframe " + output_name + "_" + dictionary[1][0] + ".csv saved in left_right_dataframes/")
     print("\n\n")
 
+    # return left and right series
+    return mean_left_series, mean_right_series
+
+# python3 loading_1200_data.py
+
 if __name__=='__main__':
     filetype = ['corrThickness', 'curvature', 'myelinMap', 'smoothedMyelinMap', 'sulc', 'thickness']
     filenames = ['S1200.corrThickness_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.curvature_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.MyelinMap_BC_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.SmoothedMyelinMap_BC_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.sulc_MSMAll.32k_fs_LR.dscalar.nii', 'S1200.thickness_MSMAll.32k_fs_LR.dscalar.nii']
+    # initialize dataframes
+    left_hemisphere = pd.DataFrame()
+    right_hemisphere = pd.DataFrame()
     for i in range(len(filenames)):
         print("Running " + filetype[i] + " file...")
-        main('datasets/' + filenames[i], filetype[i])
+        left_row, right_row = main('datasets/' + filenames[i], filetype[i])
+
+        # get series to dataframe, transpose to row: https://stackoverflow.com/questions/46796943/converting-a-row-of-a-pandas-dataframe-into-a-dataframe-itself-instead-of-a-ser
+        left_df_col = left_row.to_frame().T
+        right_df_col = right_row.to_frame().T
+
+        left_hemisphere = pd.concat([left_hemisphere, left_df_col], ignore_index=True)
+        right_hemisphere = pd.concat([right_hemisphere, right_df_col], ignore_index=True)
+
+    #print(df)
+    print(left_hemisphere)
+    print(right_hemisphere)
+
+    left_hemisphere.to_csv("left_right_dataframes/left_hemisphere.csv")
+
+    right_hemisphere.to_csv("left_right_dataframes/right_hemisphere.csv")
+
+
