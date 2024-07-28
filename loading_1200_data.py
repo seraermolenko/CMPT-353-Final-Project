@@ -112,16 +112,45 @@ def main(file, output_name):
     plt.suptitle('Loglog Plot of ' + output_name)
     plt.savefig("outputs/loglog/" + output_name + "_left_right")
     print("Loglog plot " + output_name + "_left_right.png saved in outputs/loglog")
+    
+    # mean_left_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[0][0] + ".csv")
+    # print("Left hemisphere dataframe " + output_name + "_" + dictionary[0][0] + ".csv saved in left_right_dataframes/")
 
-    mean_left_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[0][0] + ".csv")
-    print("Left hemisphere dataframe " + output_name + "_" + dictionary[0][0] + ".csv saved in left_right_dataframes/")
-
-    mean_right_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[1][0] + ".csv")
-    print("Right hemisphere dataframe " + output_name + "_" + dictionary[1][0] + ".csv saved in left_right_dataframes/")
-    print("\n\n")
+    # mean_right_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[1][0] + ".csv")
+    # print("Right hemisphere dataframe " + output_name + "_" + dictionary[1][0] + ".csv saved in left_right_dataframes/")
+    # print("\n\n")
 
     # return left and right series
     return mean_left_series, mean_right_series
+
+# add parcellation (brain groups) to data
+def parcellation_data():
+    parcellation = nib.load("datasets\Q1-Q6_RelatedValidation210.CorticalAreas_dil_Final_Final_Areas_Group_Colors.32k_fs_LR.dlabel.nii")
+    parcellation_array = parcellation.get_fdata() # to numpy array
+
+    # get dataframes
+    parcel_df = pd.DataFrame(parcellation_array) #, columns=['Cerebral Cortex Thickness'])
+    #print(parcel_df)
+
+    # split into left and right hemispheres, use same hardcoded values as brain data files
+    # parcel_left_df = pd.DataFrame(parcellation_array[:29695])
+    # parcel_right_df = pd.DataFrame(parcellation_array[29695:])
+
+    parcel_left_df = parcel_df.iloc[:, 0:29695+1].reset_index()
+    parcel_right_df = parcel_df.iloc[:, 29695+1:].reset_index()
+
+    mean_left_df = parcel_left_df.mean()
+    mean_right_df = parcel_right_df.mean()
+    
+
+    # Average across all 1200 applicants
+    # now they're series, 1D
+    mean_left_series = mean_left_df.iloc[1: ]
+    mean_right_series = mean_right_df.iloc[1: ]
+
+
+
+    return mean_left_series, mean_right_series # .iloc[1: ] # drop weird index at the front
 
 # python3 loading_1200_data.py
 
@@ -142,7 +171,34 @@ if __name__=='__main__':
         left_hemisphere = pd.concat([left_hemisphere, left_df_col], ignore_index=True)
         right_hemisphere = pd.concat([right_hemisphere, right_df_col], ignore_index=True)
 
-    #print(df)
+    # append parcellation data as series
+    parcel_left, parcel_right = parcellation_data()
+    # reference for appending series to dataframe: https://stackoverflow.com/questions/33094056/is-it-possible-to-append-series-to-rows-of-dataframe-without-making-a-list-first
+
+    parcel_left_df = parcel_left.to_frame().T # dataframe to series
+    parcel_right_df = parcel_right.to_frame().T
+
+    # append to the front, reference: https://pandas.pydata.org/docs/reference/api/pandas.concat.html
+    left_hemisphere = pd.concat([parcel_left_df, left_hemisphere], ignore_index=True)
+    right_hemisphere = pd.concat([parcel_right_df, right_hemisphere], ignore_index=True)
+
+    # print(parcel_left_df)
+    # print(parcel_right_df)
+    # print("and hemispheres")
+
+    # transpose to (60000 rows, 7 cols)
+    left_hemisphere = left_hemisphere.T
+    right_hemisphere = right_hemisphere.T
+    # adding col names reference: https://www.geeksforgeeks.org/add-column-names-to-dataframe-in-pandas/
+    left_hemisphere.columns = ['parcellation_group', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
+    right_hemisphere.columns = ['parcellation_group', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
+    
+    # convert grouping to int
+    left_hemisphere['parcellation_group'] = left_hemisphere['parcellation_group'].astype(int)
+    right_hemisphere['parcellation_group'] = right_hemisphere['parcellation_group'].astype(int)
+
+    # # 180 groupings total for parcellation; subtract 180 from left to match
+    left_hemisphere['parcellation_group'] = left_hemisphere['parcellation_group'] - 180
     print(left_hemisphere)
     print(right_hemisphere)
 
