@@ -27,7 +27,7 @@ We first wanted to validated our chosen powerlaw package using selected datasets
 
 For the exponential dataset, we chose world population growth from 1951-2020 retrieved from Kaggle (https://www.kaggle.com/datasets/sandhyakrishnan02/world-population-19512020?select=World_population%281951-2020%29.csv). 
 
-For both methods we fit the data to the powerlaw distribution using fit = powerlaw.Fit(dataset). From here we could observe constants alpha and sigma. We then ran R, p = fit.distribution_compare('power_law', 'exponential') to compare our fitted data to these two distributions.
+We then fit the positive and negative control to powerlaw distribution using the python package listed below. We determined the goodness of this fit using the log-likihood test also provided by the python package. 
 
     ... results for powerlaw dataset...
 
