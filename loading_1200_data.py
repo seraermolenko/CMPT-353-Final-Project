@@ -5,8 +5,6 @@ from nibabel import cifti2
 import matplotlib.pyplot as plt
 import sys
 
-
-
 def main(file, output_name):
     # cerebral cortext thickness
     
@@ -17,23 +15,6 @@ def main(file, output_name):
     # get dataframes
     df = pd.DataFrame(file_data) #, columns=['Cerebral Cortex Thickness'])
     hdr = file_img.header # header
-
-
-    # # Get the index map
-    # index_maps = hdr.get_index_maps()
-
-    # # Display information about the index map
-    # print("Index Maps:", index_maps)
-
-    # # If the index map contains multiple maps, you can iterate through them
-    # for im in index_maps:
-    #     print(im)
-    #     print("Type:", type(im))
-    #     print("Data:", im.data)
-    #     print("Brain Models:", im.brain_models)
-    #     print("Index:", im.index)
-
-    #print('Data space: ', hdr.get_data_shape())
 
     # Access the matrix
     matrix = hdr.matrix
@@ -79,10 +60,6 @@ def main(file, output_name):
     mean_left_series.iloc[1:]
     mean_right_series.iloc[1:]
 
-    # drop index row
-    # print(mean_left_series)
-    # print(mean_right_series)
-
     # Reference for two plots side by side
     # https://stackoverflow.com/questions/42818361/how-to-make-two-plots-side-by-side
     # Histogram
@@ -112,13 +89,6 @@ def main(file, output_name):
     plt.suptitle('Loglog Plot of ' + output_name)
     plt.savefig("outputs/loglog/" + output_name + "_left_right")
     print("Loglog plot " + output_name + "_left_right.png saved in outputs/loglog")
-    
-    # mean_left_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[0][0] + ".csv")
-    # print("Left hemisphere dataframe " + output_name + "_" + dictionary[0][0] + ".csv saved in left_right_dataframes/")
-
-    # mean_right_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[1][0] + ".csv")
-    # print("Right hemisphere dataframe " + output_name + "_" + dictionary[1][0] + ".csv saved in left_right_dataframes/")
-    # print("\n\n")
 
     # return left and right series
     return mean_left_series, mean_right_series
@@ -130,12 +100,8 @@ def parcellation_data():
 
     # get dataframes
     parcel_df = pd.DataFrame(parcellation_array) #, columns=['Cerebral Cortex Thickness'])
-    #print(parcel_df)
 
     # split into left and right hemispheres, use same hardcoded values as brain data files
-    # parcel_left_df = pd.DataFrame(parcellation_array[:29695])
-    # parcel_right_df = pd.DataFrame(parcellation_array[29695:])
-
     parcel_left_df = parcel_df.iloc[:, 0:29695+1].reset_index()
     parcel_right_df = parcel_df.iloc[:, 29695+1:].reset_index()
 
@@ -143,14 +109,13 @@ def parcellation_data():
     mean_right_df = parcel_right_df.mean()
     
 
-    # Average across all 1200 applicants
-    # now they're series, 1D
+    # Average across all 1200 applicants # now they're series, 1D
     mean_left_series = mean_left_df.iloc[1: ]
     mean_right_series = mean_right_df.iloc[1: ]
 
 
 
-    return mean_left_series, mean_right_series # .iloc[1: ] # drop weird index at the front
+    return mean_left_series, mean_right_series
 
 # python3 loading_1200_data.py
 
@@ -160,6 +125,8 @@ if __name__=='__main__':
     # initialize dataframes
     left_hemisphere = pd.DataFrame()
     right_hemisphere = pd.DataFrame()
+
+    # run all 6 files to extract hemisphere data
     for i in range(len(filenames)):
         print("Running " + filetype[i] + " file...")
         left_row, right_row = main('datasets/' + filenames[i], filetype[i])
@@ -182,10 +149,6 @@ if __name__=='__main__':
     left_hemisphere = pd.concat([parcel_left_df, left_hemisphere], ignore_index=True)
     right_hemisphere = pd.concat([parcel_right_df, right_hemisphere], ignore_index=True)
 
-    # print(parcel_left_df)
-    # print(parcel_right_df)
-    # print("and hemispheres")
-
     # transpose to (60000 rows, 7 cols)
     left_hemisphere = left_hemisphere.T
     right_hemisphere = right_hemisphere.T
@@ -203,7 +166,6 @@ if __name__=='__main__':
     print(right_hemisphere)
 
     left_hemisphere.to_csv("left_right_dataframes/left_hemisphere.csv")
-
     right_hemisphere.to_csv("left_right_dataframes/right_hemisphere.csv")
 
 
