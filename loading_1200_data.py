@@ -5,8 +5,6 @@ from nibabel import cifti2
 import matplotlib.pyplot as plt
 import sys
 
-
-
 def main(file, output_name):
     # cerebral cortext thickness
     
@@ -17,23 +15,6 @@ def main(file, output_name):
     # get dataframes
     df = pd.DataFrame(file_data) #, columns=['Cerebral Cortex Thickness'])
     hdr = file_img.header # header
-
-
-    # # Get the index map
-    # index_maps = hdr.get_index_maps()
-
-    # # Display information about the index map
-    # print("Index Maps:", index_maps)
-
-    # # If the index map contains multiple maps, you can iterate through them
-    # for im in index_maps:
-    #     print(im)
-    #     print("Type:", type(im))
-    #     print("Data:", im.data)
-    #     print("Brain Models:", im.brain_models)
-    #     print("Index:", im.index)
-
-    #print('Data space: ', hdr.get_data_shape())
 
     # Access the matrix
     matrix = hdr.matrix
@@ -79,10 +60,6 @@ def main(file, output_name):
     mean_left_series.iloc[1:]
     mean_right_series.iloc[1:]
 
-    # drop index row
-    # print(mean_left_series)
-    # print(mean_right_series)
-
     # Reference for two plots side by side
     # https://stackoverflow.com/questions/42818361/how-to-make-two-plots-side-by-side
     # Histogram
@@ -113,14 +90,31 @@ def main(file, output_name):
     plt.savefig("outputs/loglog/" + output_name + "_left_right")
     print("Loglog plot " + output_name + "_left_right.png saved in outputs/loglog")
 
-    mean_left_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[0][0] + ".csv")
-    print("Left hemisphere dataframe " + output_name + "_" + dictionary[0][0] + ".csv saved in left_right_dataframes/")
-
-    mean_right_series.to_csv("left_right_dataframes/" + output_name + "_" + dictionary[1][0] + ".csv")
-    print("Right hemisphere dataframe " + output_name + "_" + dictionary[1][0] + ".csv saved in left_right_dataframes/")
-    print("\n\n")
-
     # return left and right series
+    return mean_left_series, mean_right_series
+
+# add parcellation (brain groups) to data
+def parcellation_data():
+    parcellation = nib.load("datasets\Q1-Q6_RelatedValidation210.CorticalAreas_dil_Final_Final_Areas_Group_Colors.32k_fs_LR.dlabel.nii")
+    parcellation_array = parcellation.get_fdata() # to numpy array
+
+    # get dataframes
+    parcel_df = pd.DataFrame(parcellation_array) #, columns=['Cerebral Cortex Thickness'])
+
+    # split into left and right hemispheres, use same hardcoded values as brain data files
+    parcel_left_df = parcel_df.iloc[:, 0:29695+1].reset_index()
+    parcel_right_df = parcel_df.iloc[:, 29695+1:].reset_index()
+
+    mean_left_df = parcel_left_df.mean()
+    mean_right_df = parcel_right_df.mean()
+    
+
+    # Average across all 1200 applicants # now they're series, 1D
+    mean_left_series = mean_left_df.iloc[1: ]
+    mean_right_series = mean_right_df.iloc[1: ]
+
+
+
     return mean_left_series, mean_right_series
 
 # python3 loading_1200_data.py
@@ -131,6 +125,8 @@ if __name__=='__main__':
     # initialize dataframes
     left_hemisphere = pd.DataFrame()
     right_hemisphere = pd.DataFrame()
+
+    # run all 6 files to extract hemisphere data
     for i in range(len(filenames)):
         print("Running " + filetype[i] + " file...")
         left_row, right_row = main('datasets/' + filenames[i], filetype[i])
@@ -142,12 +138,34 @@ if __name__=='__main__':
         left_hemisphere = pd.concat([left_hemisphere, left_df_col], ignore_index=True)
         right_hemisphere = pd.concat([right_hemisphere, right_df_col], ignore_index=True)
 
-    #print(df)
+    # append parcellation data as series
+    parcel_left, parcel_right = parcellation_data()
+    # reference for appending series to dataframe: https://stackoverflow.com/questions/33094056/is-it-possible-to-append-series-to-rows-of-dataframe-without-making-a-list-first
+
+    parcel_left_df = parcel_left.to_frame().T # dataframe to series
+    parcel_right_df = parcel_right.to_frame().T
+
+    # append to the front, reference: https://pandas.pydata.org/docs/reference/api/pandas.concat.html
+    left_hemisphere = pd.concat([parcel_left_df, left_hemisphere], ignore_index=True)
+    right_hemisphere = pd.concat([parcel_right_df, right_hemisphere], ignore_index=True)
+
+    # transpose to (60000 rows, 7 cols)
+    left_hemisphere = left_hemisphere.T
+    right_hemisphere = right_hemisphere.T
+    # adding col names reference: https://www.geeksforgeeks.org/add-column-names-to-dataframe-in-pandas/
+    left_hemisphere.columns = ['parcellation_group', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
+    right_hemisphere.columns = ['parcellation_group', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
+    
+    # convert grouping to int
+    left_hemisphere['parcellation_group'] = left_hemisphere['parcellation_group'].astype(int)
+    right_hemisphere['parcellation_group'] = right_hemisphere['parcellation_group'].astype(int)
+
+    # # 180 groupings total for parcellation; subtract 180 from left to match
+    left_hemisphere['parcellation_group'] = left_hemisphere['parcellation_group'] - 180
     print(left_hemisphere)
     print(right_hemisphere)
 
     left_hemisphere.to_csv("left_right_dataframes/left_hemisphere.csv")
-
     right_hemisphere.to_csv("left_right_dataframes/right_hemisphere.csv")
 
 
