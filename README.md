@@ -5,7 +5,7 @@ README.md
 - Rachel's Accomplishment Statement
 
 **Required Libraries**
-- numpy, pandas, matplotlib, powerlaw, nibabel 
+- numpy 1.24.2, pandas, matplotlib, powerlaw, nibabel, scipy 
 
 **Commands/Arguments**
 

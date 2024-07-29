@@ -95,7 +95,8 @@ def main(file, output_name):
 
 # add parcellation (brain groups) to data
 def parcellation_data():
-    parcellation = nib.load("datasets\Q1-Q6_RelatedValidation210.CorticalAreas_dil_Final_Final_Areas_Group_Colors.32k_fs_LR.dlabel.nii")
+    #parcellation = nib.load("datasets\Q1-Q6_RelatedValidation210.CorticalAreas_dil_Final_Final_Areas_Group_Colors.32k_fs_LR.dlabel.nii")
+    parcellation = nib.load("datasets/Q1-Q6_RelatedValidation210.CorticalAreas_dil_Final_Final_Areas_Group_Colors.32k_fs_LR.dlabel.nii")
     parcellation_array = parcellation.get_fdata() # to numpy array
 
     # get dataframes
@@ -153,19 +154,18 @@ if __name__=='__main__':
     left_hemisphere = left_hemisphere.T
     right_hemisphere = right_hemisphere.T
     # adding col names reference: https://www.geeksforgeeks.org/add-column-names-to-dataframe-in-pandas/
-    left_hemisphere.columns = ['parcellation_group', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
-    right_hemisphere.columns = ['parcellation_group', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
+    left_hemisphere.columns = ['group_num', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
+    right_hemisphere.columns = ['group_num', 'corrected_thickness', 'curvature', 'myelin_map', 'smoothed_myelin_map', 'sulcal_depth', 'thickness']
     
     # convert grouping to int
-    left_hemisphere['parcellation_group'] = left_hemisphere['parcellation_group'].astype(int)
-    right_hemisphere['parcellation_group'] = right_hemisphere['parcellation_group'].astype(int)
+    left_hemisphere['group_num'] = left_hemisphere['group_num'].astype(int)
+    right_hemisphere['group_num'] = right_hemisphere['group_num'].astype(int)
 
     # # 180 groupings total for parcellation; subtract 180 from left to match
-    left_hemisphere['parcellation_group'] = left_hemisphere['parcellation_group'] - 180
+    left_hemisphere['group_num'] = left_hemisphere['group_num'] - 180
     print(left_hemisphere)
     print(right_hemisphere)
 
     left_hemisphere.to_csv("left_right_dataframes/left_hemisphere.csv")
     right_hemisphere.to_csv("left_right_dataframes/right_hemisphere.csv")
-
 

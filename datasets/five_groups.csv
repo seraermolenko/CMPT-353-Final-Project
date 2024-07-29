@@ -1,0 +1,25 @@
+,parcellation, core_group, group_num
+0,auditory,A1,24
+1,auditory,MBelt,173
+2,auditory,LBelt,174
+3,auditory,PBelt,124
+4,auditory,RI,104
+5,somatosensory,4,8
+6,somatosensory,3a,53
+7,somatosensory,3b,9
+8,somatosensory,1,51
+9,visual,V1,1
+10,visual,V2,4
+11,visual,V3,5
+12,visual,V4,6
+13,task positive,PF,148
+14,task positive,PHT,137
+15,task positive,23c,38
+16,task positive,36,84
+17,task negative,PGi,150
+18,task negative,PGs,151
+19,task negative,TE1a,132
+20,task negative,7m,30
+21,task negative,v23ab,33
+22,task negative,10r,65
+23,task negative,10v,88
