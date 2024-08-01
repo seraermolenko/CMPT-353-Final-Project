@@ -22,7 +22,7 @@ def display_clusters(X, y, plot_title, filename):
     # find best characteristics (normalized) to show clustering with
     Xl_pca = pca_model.fit_transform(X)
     Xl_pca_df = pd.DataFrame(Xl_pca)
-    print(Xl_pca_df)
+    #print(Xl_pca_df)
     model = make_pipeline(
         MinMaxScaler(),
         KMeans(n_clusters=5) # 5 labels
@@ -30,11 +30,12 @@ def display_clusters(X, y, plot_title, filename):
 
     model.fit(X)
     clusters = model.predict(X)
-    print(clusters)
+    #print(clusters)
     #plt.scatter(X2[:, 0], X2[:, 1], c=clusters)
     plt.scatter(Xl_pca_df.iloc[:, 0], Xl_pca_df.iloc[:, 1], c=clusters)
     plt.title(plot_title)
     plt.savefig("outputs/ml_results/" + filename)
+    plt.clf()
 
 
 left_hemisphere = pd.read_csv("left_right_dataframes/left_hemisphere.csv")
@@ -50,9 +51,9 @@ right_hemisphere = right_hemisphere.drop(right_hemisphere.columns[0], axis=1)
 left_hemisphere = left_hemisphere.drop(['corrected_thickness', 'smoothed_myelin_map'], axis=1)
 right_hemisphere = right_hemisphere.drop(['corrected_thickness', 'smoothed_myelin_map'], axis=1)
 
-print(left_hemisphere)
-print(right_hemisphere)
-print(parcellation)
+# print(left_hemisphere)
+# print(right_hemisphere)
+# print(parcellation)
 
 # 5 clusters for 5 main groupings
 #model = KMeans(n_clusters=5)
@@ -61,12 +62,24 @@ print(parcellation)
 # add 5 main group labels
 left_labelled = pd.merge(left_hemisphere, parcellation, left_on='group_num', right_on=' group_num', how='inner').reset_index()
 right_labelled = pd.merge(right_hemisphere, parcellation, left_on='group_num', right_on=' group_num', how='inner').reset_index()
-print("Result:")
+#print("Result:")
 left_labelled = left_labelled[['parcellation', 'group_num', 'curvature', 'myelin_map', 'sulcal_depth', 'thickness']]
 right_labelled = right_labelled[['parcellation', 'group_num', 'curvature', 'myelin_map', 'sulcal_depth', 'thickness']]
 
 print(left_labelled)
 print(right_labelled)
+
+# get groups, remove duplicates: https://www.w3schools.com/python/pandas/ref_df_drop_duplicates.asp
+left_groups = left_labelled['group_num'].drop_duplicates()
+right_groups = right_labelled['group_num'].drop_duplicates()
+# print(left_groups)
+# print(right_groups)
+
+# remove all groupings not in left_labelled and right_labelled to get all unlabelled data.
+left_unlabelled = left_hemisphere[~left_hemisphere['group_num'].isin(left_groups)]
+right_unlabelled = right_hemisphere[~right_hemisphere['group_num'].isin(right_groups)]
+print(left_unlabelled)
+print(right_unlabelled)
 
 # now get unlabelled data to fit model to: all vertices that aren't in this subset
 
@@ -81,5 +94,5 @@ X_right = right_labelled.drop(['parcellation'], axis=1)
 y_right = right_labelled['parcellation']
 
 # train model and run independently on left and right hemisphere data
-display_clusters(X_left, y_left, "Left Hemisphere Clustering", "left_hemisphere_clustering")
-display_clusters(X_right, y_right, "Right Hemisphere Clustering", "right_hemisphere_clustering")
+display_clusters(X_left, y_left, "Labelled Data: Left Hemisphere Clustering", "left_hemisphere_clustering")
+display_clusters(X_right, y_right, "Labelled Data: Right Hemisphere Clustering", "right_hemisphere_clustering")
