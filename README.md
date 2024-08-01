@@ -5,7 +5,8 @@ README.md
 - Rachel's Accomplishment Statement
 
 **Required Libraries**
-- numpy 1.24.2, pandas, matplotlib, powerlaw, nibabel, scipy 
+Note: run with 'pip install'
+- numpy 1.24.2, pandas, matplotlib, powerlaw, nibabel, scipy, scikit-learn
 
 **Commands/Arguments**
 

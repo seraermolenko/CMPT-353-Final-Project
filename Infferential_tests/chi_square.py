@@ -21,6 +21,9 @@ right_hemisphere = right_hemisphere.drop(right_hemisphere.columns[0], axis=1)
 left_group = pd.merge(left_hemisphere, parcellation, left_on='group_num', right_on=' group_num', how='inner').groupby('parcellation').sum('count').reset_index()
 right_group = pd.merge(right_hemisphere, parcellation, left_on='group_num', right_on=' group_num', how='inner').groupby('parcellation').sum('count').reset_index()
 
+print(left_group)
+print(right_group)
+
 # sum of all vertices per 5 main groups
 
 # auditory, somatosensory, task negative, task positive, visual
