@@ -1,6 +1,5 @@
 # Inferential_Tests 
 
-
 # Description 
 
 This sections speratly demonstrates the KS test, the Log Likelihood test, and both together with bootstrapping. The maximum likelihood test is implicity demonstrated in each file becuase it is used by the Fit function from Power Law package. These 

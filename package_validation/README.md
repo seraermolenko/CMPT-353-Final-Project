@@ -1,6 +1,5 @@
 # Package validation
 
-
 # Description 
 
 This sections aims to validate the functionalities and performance of the Power Law Python package. The positive and negative control scripts within this folder are used to ensure that the package works correctly.
