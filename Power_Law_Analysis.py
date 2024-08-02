@@ -30,10 +30,10 @@ def main():
     right_results = powerlaw.Fit(right_data)
 
     # KS test
-    D_Left = left_results.power_law.KS()   
+    D_left = left_results.power_law.KS()   
     D_right = right_results.power_law.KS()   
 
-    # bootstrapping 
+    # bootstrapping left and right 100 times 
     bootstrap_num = 100
 
     # bootstrap left results
@@ -77,16 +77,43 @@ def main():
     alpha_conf_interval_right = np.percentile(alpha_bootstrap_right, [2.5, 97.5])
     xmin_conf_interval_right = np.percentile(xmin_bootstrap_right, [2.5, 97.5])
 
-    # print statment for clarity 
-    
-
+    print("\n\n")
     # log liklihood test on the left and right data
+    print("Left Log-Likihood results")
     LogLiklihood(left_results)
+    print("Right Log-Likihood results")
     LogLiklihood(right_results)
+
+    print("\n")
+    print("Left data distribution fit results:")
+    print("estimated fit alpha: {:.3g}".format(left_results.power_law.alpha - 1)) 
+    print("estimated fit x_min: {:.3g}".format(left_results.power_law.xmin))
+    print("Left Alpha confidence interval:", alpha_conf_interval_left)
+    print("Left X_min confidence interval:", xmin_conf_interval_left)
+
+    print("\n")
+    print("Right data distribution fit results:")
+    print("estimated fit alpha: {:.3g}".format(right_results.power_law.alpha - 1)) 
+    print("estimated fit x_min: {:.3g}".format(right_results.power_law.xmin))
+    print("Right Alpha confidence interval:", alpha_conf_interval_right)
+    print("Right X_min confidence interval:", xmin_conf_interval_right)
+
+    # Original KS test satistic 
+    print("\n")
+    print("KS stastic and its significance for Left Data")
+    print("KS test D value:", D_left)
+
+    # calculating p-value for the KS statistic based on bootstrap distribution
+    p_value_left = np.mean(np.array(ks_statistics_left) >= D_left)
+    print("P-value:", p_value_left)
     
+    print("\n")
+    print("KS stastic and its significance for Right Data")
+    print("KS test D value:", D_right)
 
-
-
+    # calculating p-value for the KS statistic based on bootstrap distribution
+    p_value_right = np.mean(np.array(ks_statistics_left) >= D_right)
+    print("P-value:", p_value_right)
 
 
 if __name__=='__main__':
