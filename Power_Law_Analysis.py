@@ -5,11 +5,13 @@ import pandas as pd
 
 
 def main():
-    left_parcellation = pd.read.csv("Left_Right_Dataframes/left_parcellation_count.csv")
-    right_parcellation = pd.read.csv("Left_Right_Dataframes/right_parcellation_count.csv")
-
-    left_parcellation.show()
-    right_parcellation.show()
+    left_parcellation = pd.read_csv("Left_Right_Dataframes/left_parcellation_count.csv")
+    right_parcellation = pd.read_csv("Left_Right_Dataframes/right_parcellation_count.csv")
+ 
+    left_data = left_parcellation.drop("Unnamed: 0")
+    right_data = right_parcellation.drop("Unnamed: 0")
+    print(left_data.head())
+    print(right_data.head())
 
 
 
