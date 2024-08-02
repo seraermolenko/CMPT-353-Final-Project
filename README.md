@@ -39,9 +39,7 @@ command line argument.py
 3. Power Law Analysis
 4. Inferrential Stats
     - python Inferential_Tests\KS_test.py
-
     - python Inferential_Tests\KS_test.py
-
     - python Inferential_Tests\KS_Likelihood_Bootstrap.py
 5. Machine Learning
     - python machine_learning\clustering.py
