@@ -1,9 +1,5 @@
 README.md
 
-**Project Overview**
-- Sera's Accomplishment Statement
-- Rachel's Accomplishment Statement
-
 **Required Libraries**
 
 - `numpy` 1.24.2
@@ -27,60 +23,32 @@ python3 Power_Law_Analysis.py
 command line argument.py
 
 **Order of Execution**
-1. Powerlaw Package Validation 
-    - python positive_control.py
-    - python negative_control.py
-2. Inferential Tests
-    - KS_test.pt
-    - KS_Likelihood.py
-    - KS_Likelihood_Bootstrap.py 
-3. Power_law_Analysis
-4. Machine Learning 
-    - clustering.py
+1. Powerlaw Package Validation
+    python package_validation\positive_control.py
+        - produces package_validation\Positive_Control_PDF.png
+    python package_validation\negative_control.py
+        - produces package_validation\Negative_Control_PDF.png
+2. Data Cleaning and Aggregation
+    python data_aggregation/loading_1200_data.py
+        - produces 6 histograms of left & right hemispheres of each brain characteristic in ‘outputs/histograms’ folder
+        - produces 6 loglog() plots of left & right hemispheres of each brain characteristic in ‘outputs/loglog’ folder
+        - produces two dataframes left_hemisphere.csv and right_hemisphere.csv in ‘left_right_dataframes’ folder
+    python data_aggregation/hemisphere_analysis.py
+        - produces 2 plots of vertices per parcellation grouping for left and right hemispheres (left_parcellation_count.png and right_parcellation_count.png) in ‘outputs/parcellation_count’ folder
+        - produces two aggregated dataframes left_parcellation_count.csv and right_parcellation_count.csv in ‘left_right_dataframes’ folder
+3. Power Law Analysis
+4. Inferrential Stats
+    python Inferential_Tests\KS_test.py
 
+    python Inferential_Tests\KS_test.py
 
-**Files Produced/Expected**
-1. Powerlaw Package Validation 
-    - Negative_Control_PDF.png
-    - Positive_Control_PDF.png 
-2. Inferential Tests
-    - Heavy_Tailed_LogNormal.png
-3. Power_law_Analysis
-    - maybe idk yey
-4. Machine Learning
-    - does it?
-5. Left Right Dataframes
-    - ??
-6. Datasets
-    - ??
-
-
-**Code Documentation (4 page report)**
-
-1) Validate the Powerlaw Package
-https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0085777#s4
-
-We first wanted to validated our chosen powerlaw package using selected datasets. We chose datasets that we could gurantee followed powerlaw and those that couldn't; for this we chose an exponentially-distributed dataset.
-
-.... this dataset followed powerlaw ...
-
-For the exponential dataset, we chose world population growth from 1951-2020 retrieved from Kaggle (https://www.kaggle.com/datasets/sandhyakrishnan02/world-population-19512020?select=World_population%281951-2020%29.csv). 
-
-We then fit the positive and negative control to powerlaw distribution using the python package listed below. We determined the goodness of this fit using the log-likihood test also provided by the python package. 
-
-    ... results for powerlaw dataset...
-
-    For the world population dataset, R was less than 0 which means that the exponential distribution was preferred. This was also statistically significant as p = 0.00036369686925081374 which is much less than 0.05.
-
-
-- The problem you are addressing, particularly how you refined the provided idea
-- The data that you used: how it was gathered, cleaned, etc.
-- Techniques you used to analyse the data.
-- Your results/findings/conclusions.
-- Some appropriate visualization of your data/results.
-- Limitations: problems you encountered, things you would do if you had more time, things you should have done in retrospect, etc. 
-
+    python Inferential_Tests\KS_Likelihood_Bootstrap.py
+5. Machine Learning
+    python machine_learning\clustering.py
+        - produces two plots of clustered labelled data: left_hemisphere_clustering.png right_hemisphere_clustering.png in 'outputs\ml_results' folder
+        - prints the crosstab() results of left and right hemispheres, un-aligned. One program run's data was manually aligned and created as machine_learning\sample_crosstab.csv
+    python chi_square.py
+        - prints p-value
 
 **To-do**
-- include 1-2 sample input files
 - at end: import as a remote repository to SFU's GitHub server (add prof/TA's as developers)

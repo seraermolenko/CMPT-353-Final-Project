@@ -2,34 +2,20 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
-# Question: Is the number of vertices per core parcellation category independent?
-# five categories: auditory, somatosemsory, visual, task positive, task negative.
-# left vs. right hemisphere: 
-# 
-left_count = pd.read_csv("left_right_dataframes/left_hemisphere.csv").shape[0]
-right_count = pd.read_csv("left_right_dataframes/right_hemisphere.csv").shape[0]
+# load left/right hemisphere results into contingency table
+crosstab = pd.read_csv('machine_learning\sample_crosstab.csv').set_index('Unnamed: 0').T
+left = crosstab.iloc[:, :5].to_numpy()
+right = crosstab.iloc[:, 5:10].to_numpy()
 
-left_hemisphere = pd.read_csv("left_right_dataframes/left_parcellation_count.csv")
-right_hemisphere = pd.read_csv("left_right_dataframes/right_parcellation_count.csv")
-parcellation = pd.read_csv("datasets/five_groups.csv")
 
-#drop index col
-left_hemisphere = left_hemisphere.drop(left_hemisphere.columns[0], axis=1)
-right_hemisphere = right_hemisphere.drop(right_hemisphere.columns[0], axis=1)
+# zeroes skewing results, remove them
+# all zeroes in the exact same spots, reference: https://stackoverflow.com/questions/5927180/how-do-i-remove-all-zero-elements-from-a-numpy-array
+left = left[left != 0]
+right = right[right != 0]
 
-# add 5 main group labels
-left_group = pd.merge(left_hemisphere, parcellation, left_on='group_num', right_on=' group_num', how='inner').groupby('parcellation').sum('count').reset_index()
-right_group = pd.merge(right_hemisphere, parcellation, left_on='group_num', right_on=' group_num', how='inner').groupby('parcellation').sum('count').reset_index()
+# join along rows, 2 rows of left and right
+contingency2 = [left, right] #np.concatenate([left, right], axis=0)
 
-# sum of all vertices per 5 main groups
-
-# auditory, somatosensory, task negative, task positive, visual
-left_num = [left_count] # 29696
-right_num = [right_count] # 29716
-print("Contingency table of left and right hemisphere:")
-contingency = [ left_num + left_group['count'].tolist(), right_num + right_group['count'].tolist()]
-print(contingency)
-
-statistic, pvalue, dof, expected_freq = stats.chi2_contingency(contingency)
-print("Chi-squared test p-value: " + str(pvalue)) # null hypothesis : categories are independent/proportions ar the same. Does the left/right hemisphere affect the number of vertices?
+statistic, pvalue, dof, expected_freq = stats.chi2_contingency(contingency2)
+print("Chi-squared test p-value: " + str(pvalue)) # null hypothesis : categories are independent/proportions ar the same. Does the left/right hemisphere affect?
 #print("Chi-squared test expected frequency: " + str(expected_freq))
