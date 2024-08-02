@@ -1,7 +1,26 @@
 README.md
 
 **Required Libraries**
-- numpy 1.24.2, pandas, matplotlib, powerlaw, nibabel, scipy 
+
+- `numpy` 1.24.2
+- `pandas`
+- `matplotlib` 
+- `powerlaw` 
+- `nibabel` 
+- `scipy` 
+- `sklearn.utils`
+
+You can install these dependencies using `pip`:
+
+pip install numpy pandas matplotlib powerlaw nibabel scipy sklearn.utils 
+
+**Commands/Arguments**
+
+# Run the Power Law Analysis script
+python3 Power_Law_Analysis.py
+
+# Run the Machine Learning script 
+command line argument.py
 
 **Order of Execution**
 1. Powerlaw Package Validation
@@ -17,9 +36,14 @@ README.md
     python data_aggregation/hemisphere_analysis.py
         - produces 2 plots of vertices per parcellation grouping for left and right hemispheres (left_parcellation_count.png and right_parcellation_count.png) in ‘outputs/parcellation_count’ folder
         - produces two aggregated dataframes left_parcellation_count.csv and right_parcellation_count.csv in ‘left_right_dataframes’ folder
-3. Inferrential Stats
+3. Power Law Analysis
+4. Inferrential Stats
+    python Inferential_Tests\KS_test.py
 
-4. Machine Learning
+    python Inferential_Tests\KS_test.py
+
+    python Inferential_Tests\KS_Likelihood_Bootstrap.py
+5. Machine Learning
     python machine_learning\clustering.py
         - produces two plots of clustered labelled data: left_hemisphere_clustering.png right_hemisphere_clustering.png in 'outputs\ml_results' folder
         - prints the crosstab() results of left and right hemispheres, un-aligned. One program run's data was manually aligned and created as machine_learning\sample_crosstab.csv

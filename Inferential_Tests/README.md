@@ -21,12 +21,11 @@ The following Python packages are required to run the validation scripts:
 - `scipy`
 - `matplotlib`
 - `powerlaw`
-- `nibabel`
 - `sklearn.utils`
 
 You can install these dependencies using `pip`:
 
-pip install numpy scipy matplotlib powerlaw nibabel sklearn.utils 
+pip install numpy scipy matplotlib powerlaw sklearn.utils 
 
 
 

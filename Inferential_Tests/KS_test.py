@@ -1,7 +1,5 @@
 import powerlaw
 import numpy as np
-import nibabel as nib
-import matplotlib.pyplot as plt
 from sklearn.utils import resample
 
 # command line python3 KS_test.py
@@ -99,8 +97,7 @@ print("\n")
 
 # calculating p-value for the original KS statistic based on bootstrap distribution
 p_value = np.mean(np.array(ks_statistics) >= D)
-print(f"P-value for KS test after bootstrapping: {p_value}")
-
+print("P-value for KS test after bootstrapping:", p_value)
 
 print("\n\n")
 
