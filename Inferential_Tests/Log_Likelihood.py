@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 
 # function explained at the bottom 
-def compute_power_law_p_val(results):
+def LogLiklihood(results):
 
     distribution_list = ['lognormal', 'exponential', 'truncated_power_law', 'stretched_exponential', 'lognormal_positive']
 
@@ -36,19 +36,19 @@ np.random.seed(0)       # fixing random seed so that the results are repeatble
 
 # power law 
 # generating artifiial data 
-a = 2                                                           # alpha value 2
+alpha = 2                                                       # alpha value 2
 x_min = 1                                                       # x-min value 1 
 n = 1000                                                        # generating one thousand observations 
 x = np.linspace(0, n, n+1)                                      # array x with 1001 values in it 
-s_pareto = (np.random.pareto(a, len(x)) + 1) * x_min            # generatign random sample from a pareto distribution 
+s_pareto = (np.random.pareto(alpha, len(x)) + 1) * x_min            # generating random sample from a pareto distribution 
 
 
 # log-normal distribution
-# can appear more guasian like or appear more like pwoer law depending on the value of sigma 
+# can appear more guasian like or appear more like power law depending on the value of sigma 
 # makes it hard for real world data, becasue it might be power low or it might be fat-tailed log normal distribuiton 
-m = 10                                                                      # mean = 10 
-s = 1                                                                       # sigma = 1
-s_lognormal = np.random.lognormal(m, s, len(x)) * s * np.sqrt(2*np.pi)      # generating random sample from lognormal distribution 
+mean = 10                                                                              # mean = 10 
+sigma = 1                                                                              # sigma = 1
+s_lognormal = np.random.lognormal(mean, sigma, len(x)) * sigma * np.sqrt(2*np.pi)      # generating random sample from lognormal distribution 
 
 # power law package handles this because when we do our fit it generates paramater estimates for both a power law and log normal distributions 
 
@@ -65,7 +65,7 @@ print("\n")
 print("Power-law parameters for the generated data:")
 print("alpha: ",results_pareto.power_law.alpha)                     # estimated tail index
 print("x_min: ",results_pareto.power_law.xmin)                      # estimated x min value s
-compute_power_law_p_val(results_pareto)                             # use Log-likihood              
+LogLiklihood(results_pareto)                             # use Log-likihood              
 
  
 print("\n")
@@ -75,8 +75,11 @@ print("so we have to subtract 1 from the value generated form the power law fit 
 # alpha = 2.9331912195958676                
 # x_min = 1.2703447024073973
 
-alpha_true = results_pareto.power_law.alpha - 1
-print("true alpha: ", alpha_true)
+actual_alpha = results_pareto.power_law.alpha - 1
+print("\n")
+print("true generated alpha: ", actual_alpha)
+print("Actual alpha: ", alpha)
+
 
 print("\n\n")
 print("----------------------------------------")
@@ -92,7 +95,10 @@ print("\n\n")
 print("Log-normal parameters for the generated data:")
 print("alpha: ", results_lognormal.power_law.alpha)
 print("x_min: ", results_lognormal.power_law.xmin)
-compute_power_law_p_val(results_lognormal)
+LogLiklihood(results_lognormal)
+
+print("\n")
+print("Here the lognormal data can be mis-represnted as fitting power law reaonsbaly well")
 
 # Calculating best minimal value for power law fit
 # alpha = 2.5508694755027337
@@ -110,28 +116,40 @@ print("\n")
 print("Log Likihood using Lognormaly distributed data, small data set with maunual lowest x-min")
 print("\n")
 # fixing xmin so that fit must include all data
-results = powerlaw.Fit(s_lognormal, xmin=np.min(s_lognormal))              # manually settong the x-min argument to the smallest value in the data set (uses all values)
+results_lognormal_xmin = powerlaw.Fit(s_lognormal, xmin=np.min(s_lognormal))              # manually settong the x-min argument to the smallest value in the data set (uses all values)
 
+# Perform log-likelihood comparison
+LogLiklihood(results_lognormal_xmin)
 
-print("alpha: ", results.power_law.alpha)
-print("x_min: ", results.power_law.xmin)
-
-# alpha = 1.3087955873576855
-# x_min = 2201.318351239509
 
 # can generate estimates of the log normal distribution paramters
-print("mu: ", results.lognormal.mu)
-print("sigma: ", results.lognormal.sigma)
+print("\n")
+print("Generated paramaters for log-normal distribution with manual xmin:")
+print("mean: {:.3g}".format(results_lognormal_xmin.lognormal.mu))
+print("sigma: {:.3g}".format(results_lognormal_xmin.lognormal.sigma))
 
-# mu = 10.933481999687547
-# sigma = 0.9834599169175509
+print("\n")
+print("Actual true parameters for log-normal distribution with manual xmin:")
+print("True mean: ", mean)
+print("True sigma: ", sigma)
 
-print("You can compare the mu and sigma estimates to the ground truth of the distribution and see that the fit does a good job.")
+print("\n")
+print("Theoritcaly, you could compare the mu and sigma estimates to the ground truth of the distribution and see that the fit does a good job.")
 print("however in practice, we dont know what the true values are so we wouldnt be able to tell which is a better fit by compring paramater values.")
 print("\n")
 print("If we new the true paramters of our empirical distribution, we could simply access the paramters of each fitted distribution to compare!")
 print("The solution?")
-print("We compute likley hood-ratio between the power law fit and a list of other distributions to give us a sense of which distributions best explains the data ")
+print("We compute likley hood-ratio between the power law fit and a list of other distributions to give us a sense of which distributions best explains the data!")
+print("/n/n")
 
-print("\n") 
-print("The function at the top of this script is the Log Likihood implentation")
+
+
+
+# plotting the log-normal distribution with a relativley large sigma for understanding of heavy tail 
+plt.figure(figsize=(12, 6))
+plt.hist(s_lognormal, bins=50, density=True, alpha=0.75, color='blue', edgecolor='black')
+plt.title('Log-normal Distribution with Sigma = 1 (Heavy Tail)')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.grid(True)
+plt.savefig('Heavy_Tailed_LogNormal.png')
