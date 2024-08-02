@@ -3,12 +3,10 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-# command line: python3 positive_control.py
-
 
 try:
     # load Moby file
-    moby_file=open('moby_data.txt')
+    moby_file=open('package_validation\moby_data.txt')
     nums = []
 
     for line in moby_file: 
@@ -52,7 +50,7 @@ try:
 
     # Show plot
     #plt.show()
-    plt.savefig('Positive_Control_PDF.png')
+    plt.savefig('package_validation\Positive_Control_PDF.png')
 
     # alpha and xmin results
     #print('\n') 
