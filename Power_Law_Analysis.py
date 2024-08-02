@@ -1,7 +1,7 @@
 import powerlaw
 import numpy as np
-import nibabel as nib
 import pandas as pd
+import matplotlib as plt
 from sklearn.utils import resample
 
 # function to compute and print p-values
@@ -112,9 +112,27 @@ def main():
     p_value_right = np.mean(np.array(ks_statistics_right) >= D_right)
     print("P-value:", p_value_right)
 
-    print("\nthe data")
-    print(left_data)
-    print(right_data)
+    
+    # Plot Left Data 
+    # Different figures for plotting 
+    fig, ax = plt.subplots(1,2,1) 
+    powerlaw.plot_pdf(left_results, ax=ax, color='b', linestyle='-', label='Left Data PDF')
+    left_results.power_law.plot_pdf(ax=ax, linestyle='--', color='r', linewidth=2, label='Left Hemisphere Power Law Fit')
+
+    plt.title("Left Hemisphere Fit")
+    plt.xlabel('Count')
+    plt.ylabel('Probability Density')
+
+    # Plotting Right Data 
+    fig2, ax2 = plt.subplots(1,2,2) 
+    powerlaw.plot_pdf(right_results, ax=ax2, color='b', linestyle='-', label='Right Data PDF')
+    right_results.power_law.plot_pdf(ax=ax2, linestyle='--', color='r', linewidth=2, label='Right Hemisphere Power Law Fit')
+
+    plt.title("Right Hemisphere Fit")
+    plt.xlabel('Count')
+    plt.ylabel('Probability Density')
+    plt.savefig('Power_Law_Analysis.png')
 
 if __name__=='__main__':
    main()
+

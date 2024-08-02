@@ -72,7 +72,7 @@ try:
     plt.legend()
 
     # Show plot
-    plt.show()
+    #plt.show()
 
 
     # alpha and xmin results
