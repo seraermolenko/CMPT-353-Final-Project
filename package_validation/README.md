@@ -2,7 +2,8 @@
 
 # Description 
 
-This sections aims to validate the functionalities and performance of the Power Law Python package. The positive and negative control scripts within this folder are used to ensure that the package works correctly.
+This sections aims to validate the functionalities and performance of the Power Law Python package. The positive and negative control scripts within this folder are used to ensure that the package works correctly. Additonally, it contains a file fitting 
+fMRI scalar data as a tester. 
 
 # Dependencies
 
@@ -25,6 +26,10 @@ python3 negative_control.py
 
 # Run the positive control script
 python3 positive_control.py
+
+
+# Run the fmri testing script 
+python3 testing_fmri_thickness_Ppackage.py
 
 
 
