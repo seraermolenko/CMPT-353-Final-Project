@@ -139,7 +139,7 @@ print("\n")
 print("If we new the true paramters of our empirical distribution, we could simply access the paramters of each fitted distribution to compare!")
 print("The solution?")
 print("We compute likley hood-ratio between the power law fit and a list of other distributions to give us a sense of which distributions best explains the data!")
-print("/n/n")
+print("\n")
 
 
 
