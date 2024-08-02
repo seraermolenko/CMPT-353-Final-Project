@@ -13,7 +13,7 @@ np.random.seed(0)       # fixing random seed so that the results are repeatble
 # generating artifiial data 
 alpha = 2                                                       # alpha value 2
 x_min = 1                                                       # x-min value 1 
-n = 10000                                                       # generating one thousand observations 
+n = 1000                                                       # generating one thousand observations 
 x = np.linspace(0, n, n+1)                                      # array x with 10001 values in it, CHANGED TO 1001 FOR SPEED, FEEL FREE TO ALTER BACK
 pareto = (np.random.pareto(alpha, len(x)) + 1) * x_min        # generating random sample from a pareto distribution 
 
