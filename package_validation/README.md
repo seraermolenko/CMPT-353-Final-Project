@@ -22,14 +22,13 @@ pip install numpy scipy matplotlib pandas powerlaw
 
 
 # Run the negative control script
-python3 negative_control.py
+python3 package_validation/negative_control.py
 
 # Run the positive control script
-python3 positive_control.py
-
+python3 package_validation/positive_control.py
 
 # Run the fmri testing script 
-python3 testing_fmri_thickness_Ppackage.py
+python3 package_validation/testing_fmri_thickness_Ppackage.py
 
 
 

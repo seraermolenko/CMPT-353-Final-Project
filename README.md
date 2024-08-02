@@ -17,11 +17,11 @@ pip install numpy pandas matplotlib powerlaw nibabel scipy sklearn.utils
 
 **Commands, Order of Execution and Produced Files**
 1. Powerlaw Package Validation
-   - python package_validation\positive_control.py
-       -  produces package_validation\Positive_Control_PDF.png
-   -  python package_validation\negative_control.py
+   - python3 package_validation/positive_control.py
+       -  produces package_validation/Positive_Control_PDF.png
+   -  python3 package_validation/negative_control.py
         - produces package_validation\Negative_Control_PDF.png
-   - python package_validation/testing_fmri_thickness_Ppackage.py
+   - python3 package_validation/testing_fmri_thickness_Ppackage.py
         - prints out power law test results on raw data. For testing fMRI package on unaggregated scalar data.
 2. Data Cleaning and Aggregation
     - python data_aggregation/loading_1200_data.py
@@ -34,10 +34,10 @@ pip install numpy pandas matplotlib powerlaw nibabel scipy sklearn.utils
 3. Power Law Analysis
    - python Power_Law_Analysis.py
 5. Inferrential Stats
-    - python Inferential_Tests\KS_test.py
-    - python Inferential_Tests\Log_Likelihood.py
+    - python3 Inferential_Tests/KS_test.py
+    - python3 Inferential_Tests/Log_Likelihood.py
         - proudces a heavy tailed lognnormal plot: Heavy_Tailed_LogNormaal.png 
-    - python Inferential_Tests\KS_Likelihood_Bootstrap.py
+    - python3 Inferential_Tests/KS_Likelihood_Bootstrap.py
 6. Machine Learning
     - python machine_learning\clustering.py
         - produces two plots of clustered labelled data: left_hemisphere_clustering.png right_hemisphere_clustering.png in 'outputs\ml_results' folder

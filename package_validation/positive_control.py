@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 try:
     # load Moby file
-    moby_file=open('package_validation\moby_data.txt')
+    moby_file=open('package_validation/moby_data.txt')
     nums = []
 
     for line in moby_file: 
@@ -99,6 +99,7 @@ try:
     # printing out the estimated parameters
     print("Estimated xmin for simulated data:", fitted_xmin)
     print("Estimated alpha for simulated:", fitted_alpha)
+    print("\n")
 
 
 except FileNotFoundError as e:

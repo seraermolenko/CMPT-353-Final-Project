@@ -7,7 +7,7 @@ import powerlaw
 
 # get world population by year from 1951-2020
 # source: https://www.kaggle.com/datasets/sandhyakrishnan02/world-population-19512020?select=World_population%281951-2020%29.csv
-population = pd.read_csv("package_validation\World_population(1951-2020).csv")
+population = pd.read_csv("package_validation/World_population(1951-2020).csv")
 
 # Convert to per billion
 population['World Population'] = pd.to_numeric(population['World Population'].str.replace(',', ''))/1000000000
