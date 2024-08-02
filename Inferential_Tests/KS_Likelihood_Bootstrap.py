@@ -20,7 +20,7 @@ pareto = (np.random.pareto(alpha, len(x)) + 1) * x_min        # generating rando
 results_pareto = powerlaw.Fit(pareto)
 
 # func to compute and print p-values
-def compute_power_law_p_val(results):
+def LogLiklihood(results):
     distribution_list = ['lognormal', 'exponential', 'truncated_power_law', 'stretched_exponential', 'lognormal_positive']
     for distribution in distribution_list:
         R, p = results.distribution_compare('power_law', distribution)
@@ -68,7 +68,7 @@ xmin_conf_interval = np.percentile(xmin_bootstrap, [2.5, 97.5])
 # printing results
 print("\n\n\n")
 
-compute_power_law_p_val(results_pareto)
+LogLiklihood(results_pareto)
 
 print("\n")
 print("Alpha confidence interval:", alpha_conf_interval)

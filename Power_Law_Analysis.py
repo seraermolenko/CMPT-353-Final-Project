@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.utils import resample
 
 # function to compute and print p-values
-def compute_power_law_p_val(results):
+def LogLiklihood(results):
     distribution_list = ['lognormal', 'exponential', 'truncated_power_law', 'stretched_exponential', 'lognormal_positive']
     for distribution in distribution_list:
         R, p = results.distribution_compare('power_law', distribution)
@@ -70,19 +70,20 @@ def main():
             D_right_boot = right_boot_results.power_law.KS()
             ks_statistics_right.append(D_right_boot)
 
+    # boot strapping results
+    # confidenance interval to 95% percentile 
+    alpha_conf_interval_left = np.percentile(alpha_bootstrap_left, [2.5, 97.5])
+    xmin_conf_interval_left = np.percentile(xmin_bootstrap_left, [2.5, 97.5])
+    alpha_conf_interval_right = np.percentile(alpha_bootstrap_right, [2.5, 97.5])
+    xmin_conf_interval_right = np.percentile(xmin_bootstrap_right, [2.5, 97.5])
 
+    # print statment for clarity 
+    
 
-
-
-
-
-
-
-
-
-
-
-
+    # log liklihood test on the left and right data
+    LogLiklihood(left_results)
+    LogLiklihood(right_results)
+    
 
 
 
