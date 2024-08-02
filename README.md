@@ -4,7 +4,7 @@ README.md
 
 - `numpy` 1.24.2
 - `pandas`
-- `matplotlib` 
+- `matplotlib.pyplot` 
 - `powerlaw` 
 - `nibabel` 
 - `scipy` 
@@ -36,12 +36,13 @@ pip install numpy pandas matplotlib powerlaw nibabel scipy sklearn.utils
 5. Inferrential Stats
     - python Inferential_Tests\KS_test.py
     - python Inferential_Tests\Log_Likelihood.py
+        - proudces a heavy tailed lognnormal plot: Heavy_Tailed_LogNormaal.png 
     - python Inferential_Tests\KS_Likelihood_Bootstrap.py
 6. Machine Learning
     - python machine_learning\clustering.py
         - produces two plots of clustered labelled data: left_hemisphere_clustering.png right_hemisphere_clustering.png in 'outputs\ml_results' folder
         - prints the crosstab() results of left and right hemispheres, un-aligned. One program run's data was manually aligned and created as machine_learning\sample_crosstab.csv
-    - python chi_square.py
+    - python machine_learning\chi_square.py
         - prints p-value
 
 **To-do**

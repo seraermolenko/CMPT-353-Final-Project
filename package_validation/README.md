@@ -12,7 +12,7 @@ The following Python packages are required to run the validation scripts:
 
 - `numpy`
 - `scipy`
-- `matplotlib`
+- `matplotlib.pyplot`
 - `pandas`
 - `powerlaw`
 
