@@ -5,15 +5,54 @@ README.md
 - Rachel's Accomplishment Statement
 
 **Required Libraries**
-- numpy 1.24.2, pandas, matplotlib, powerlaw, nibabel, scipy 
+
+- `numpy` 1.24.2
+- `pandas`
+- `matplotlib` 
+- `powerlaw` 
+- `nibabel` 
+- `scipy` 
+- `sklearn.utils`
+
+You can install these dependencies using `pip`:
+
+pip install numpy pandas matplotlib powerlaw nibabel scipy sklearn.utils 
 
 **Commands/Arguments**
 
+# Run the Power Law Analysis script
+python3 Power_Law_Analysis.py
+
+# Run the Machine Learning script 
+command line argument.py
+
 **Order of Execution**
-1. Powerlaw Package Validation (python positive_control.py, python negative_control.py)
+1. Powerlaw Package Validation 
+    - python positive_control.py
+    - python negative_control.py
+2. Inferential Tests
+    - KS_test.pt
+    - KS_Likelihood.py
+    - KS_Likelihood_Bootstrap.py 
+3. Power_law_Analysis
+4. Machine Learning 
+    - clustering.py
+
 
 **Files Produced/Expected**
-1. two graphs Negative_Control_PDF.png and Positive_Control_PDF.png in 'outputs' folder
+1. Powerlaw Package Validation 
+    - Negative_Control_PDF.png
+    - Positive_Control_PDF.png 
+2. Inferential Tests
+    - Heavy_Tailed_LogNormal.png
+3. Power_law_Analysis
+    - maybe idk yey
+4. Machine Learning
+    - does it?
+5. Left Right Dataframes
+    - ??
+6. Datasets
+    - ??
 
 
 **Code Documentation (4 page report)**
