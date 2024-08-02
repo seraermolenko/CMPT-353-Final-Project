@@ -22,14 +22,15 @@ You can install these dependencies using `pip`:
 pip install numpy scipy matplotlib powerlaw nibabel sklearn.utils 
 
 
-# Run the Log_Likelihood.py
-python3 KS_test.py
 
 # Run the KS_test.py
 python3 KS_test.py
 
-# Run the KS_Likelihood.py
+# Run the Log_Likelihood.py
 python3 Log_Likelihood.py
+
+# Run the KS_Likelihood_Bootstrap.py
+python3 KS_Likelihood_Bootstrap.py
 
 
 

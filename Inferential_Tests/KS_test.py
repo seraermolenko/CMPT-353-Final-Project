@@ -27,7 +27,7 @@ a = 2                                                           # alpha value 2
 x_min = 1                                                       # x-min value 1 
 n = 1000                                                        # generating one thousand observations 
 x = np.linspace(0, n, n+1)                                      # array x with 1001 values in it 
-s_pareto = (np.random.pareto(a, len(x)) + 1) * x_min            # generatign random sample from a pareto distribution 
+s_pareto = (np.random.pareto(a, len(x)) + 1) * x_min            # generatingrandom sample from a pareto distribution 
 results_pareto = powerlaw.Fit(s_pareto)
 
 # ALSO, potentially because we have big data set, specify the x-min 
@@ -43,8 +43,8 @@ results_pareto = powerlaw.Fit(s_pareto)
 # lets us see how well our empirical data follows power law compared ot refrence power law 
 # smaller D is good fit, less deviation
 
-D = results_pareto.power_law.KS()
-#print(f"KS test: D = {D}")
+D = results_pareto.power_law.KS()       # printed below 
+
 
 # boot strapping 
 bootstrap_num = 100
@@ -70,18 +70,37 @@ for _ in range(bootstrap_num):
     D = results.power_law.KS()
     ks_statistics.append(D)
 
-# we want small ocnifdence intervals so that our values are robust and stable 
+# we want small conifdence intervals so that our values are robust and stable 
 # using 95% confidence interval 
 alpha_conf_interval = np.percentile(alpha_bootstrap, [2.5, 97.5])
 xmin_conf_interval = np.percentile(xmin_bootstrap, [2.5, 97.5])
 
-print("Alpha confidence interval:", alpha_conf_interval)
-print("X_min confidence interval:", xmin_conf_interval)
+alpha_original = results_pareto.power_law.alpha
+x_min_original = results_pareto.power_law.xmin
+
+
+print("\n\n\n")
+
+
+print("Original Alpha:",alpha_original)
+print("\n")
+print("Original X_min:",x_min_original)
+print("\n")
 
 # printing original KS test satistic 
 print(f"KS test: D = {D}")
+print("\n")
+
+print("Alpha confidence interval (95%):", alpha_conf_interval)
+print("\n")
+
+print("X_min confidence interval (95%):", xmin_conf_interval)
+print("\n")
 
 # calculating p-value for the original KS statistic based on bootstrap distribution
 p_value = np.mean(np.array(ks_statistics) >= D)
-print(f"P-value: {p_value}")
+print(f"P-value for KS test after bootstrapping: {p_value}")
+
+
+print("\n\n")
 
