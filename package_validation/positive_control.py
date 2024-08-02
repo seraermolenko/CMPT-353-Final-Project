@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 try:
     # load Moby file
-    moby_file=open('datasets/moby_data.txt')
+    moby_file=open('moby_data.txt')
     nums = []
 
     for line in moby_file: 
@@ -52,7 +52,7 @@ try:
 
     # Show plot
     #plt.show()
-    plt.savefig('outputs/Positive_Control_PDF.png')
+    plt.savefig('Positive_Control_PDF.png')
 
     # alpha and xmin results
     #print('\n') 

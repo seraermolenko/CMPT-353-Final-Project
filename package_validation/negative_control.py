@@ -7,7 +7,7 @@ import powerlaw
 
 # get world population by year from 1951-2020
 # source: https://www.kaggle.com/datasets/sandhyakrishnan02/world-population-19512020?select=World_population%281951-2020%29.csv
-population = pd.read_csv("datasets/World_population(1951-2020).csv")
+population = pd.read_csv("World_population(1951-2020).csv")
 
 # Convert to per billion
 population['World Population'] = pd.to_numeric(population['World Population'].str.replace(',', ''))/1000000000
@@ -20,7 +20,7 @@ plt.title('World Population from 1951-2020')
 plt.xlabel('Year')
 plt.ylabel('Population (billions)')
 #plt.show()
-plt.savefig('outputs/Negative_Control_PDF.png')
+plt.savefig('Negative_Control_PDF.png')
 
 # only keep Year, World Population
 world_pop = population.iloc[:, 0:2] 
