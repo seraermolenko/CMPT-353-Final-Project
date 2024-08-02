@@ -1,6 +1,5 @@
 import powerlaw
 import numpy as np
-import nibabel as nib
 import matplotlib.pyplot as plt
 
 # ideas in this code were learned form https://towardsdatascience.com/detecting-power-laws-in-real-world-data-with-python-b464190fade6

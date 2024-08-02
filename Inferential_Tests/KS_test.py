@@ -1,7 +1,5 @@
 import powerlaw
 import numpy as np
-import nibabel as nib
-import matplotlib.pyplot as plt
 from sklearn.utils import resample
 
 # command line python3 KS_test.py
