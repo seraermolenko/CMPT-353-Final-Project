@@ -21,9 +21,6 @@ def main():
  
     left_data = left_parcellation["count"]
     right_data = right_parcellation["count"]
-    print(left_data)
-    print(right_data)
-
 
     # fitting data to power law with MLE for alpha paramater and KS for x-min
     left_results = powerlaw.Fit(left_data)
@@ -88,7 +85,7 @@ def main():
     print("Left data distribution fit results:")
     print("estimated fit alpha: {:.3g}".format(left_results.power_law.alpha - 1)) 
     print("estimated fit x_min: {:.3g}".format(left_results.power_law.xmin))
-    print("Left Alpha confidence interval:", alpha_conf_interval_left)
+    print("Left Alpha confidence interval:", alpha_conf_interval_left) 
     print("Left X_min confidence interval:", xmin_conf_interval_left)
 
     print("\n")
@@ -112,9 +109,12 @@ def main():
     print("KS test D value:", D_right)
 
     # calculating p-value for the KS statistic based on bootstrap distribution
-    p_value_right = np.mean(np.array(ks_statistics_left) >= D_right)
+    p_value_right = np.mean(np.array(ks_statistics_right) >= D_right)
     print("P-value:", p_value_right)
 
+    print("\nthe data")
+    print(left_data)
+    print(right_data)
 
 if __name__=='__main__':
    main()
