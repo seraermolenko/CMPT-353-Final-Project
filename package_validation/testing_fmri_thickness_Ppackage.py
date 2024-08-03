@@ -4,7 +4,7 @@ import nibabel as nib
 import matplotlib.pyplot as plt
 
 # Load the cortical thickness data
-thickness_file = ('102109.thickness.164k_fs_LR.dscalar.nii')
+thickness_file = ('package_validation/102109.thickness.164k_fs_LR.dscalar.nii')
 
 try:
 
@@ -72,7 +72,7 @@ try:
     plt.legend()
 
     # Show plot
-    plt.show()
+    #plt.show()
 
 
     # alpha and xmin results

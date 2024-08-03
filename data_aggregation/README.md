@@ -1,6 +1,4 @@
 # Data Aggregation
 
-
-# Dependencies
-
+# Description 
 
