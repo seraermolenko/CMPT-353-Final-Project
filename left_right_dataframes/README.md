@@ -2,4 +2,4 @@
 
 # Description 
 
-This section contains csv files for __ 
+This section contains csv files generated from the data_aggregation folder.

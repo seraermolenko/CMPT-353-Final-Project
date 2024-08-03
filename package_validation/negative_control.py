@@ -20,7 +20,7 @@ plt.title('World Population from 1951-2020')
 plt.xlabel('Year')
 plt.ylabel('Population (billions)')
 #plt.show()
-plt.savefig('Negative_Control_PDF.png')
+plt.savefig('package_validation\\Negative_Control_PDF.png')
 
 # only keep Year, World Population
 world_pop = population.iloc[:, 0:2] 
